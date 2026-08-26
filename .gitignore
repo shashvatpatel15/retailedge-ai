@@ -1,6 +1,6 @@
 # ==============================================================================
 # RetailEdge AI - Complete .gitignore
-# Covers Python, FastAPI, YOLO/PyTorch, React/Vite, SQLite, OS, and Secret files
+# Covers Python, FastAPI, YOLO/PyTorch/NCNN, React/Vite, SQLite, OS, & Secrets
 # ==============================================================================
 
 # ------------------------------------------------------------------------------
@@ -89,9 +89,11 @@ dmypy.json
 *.db-journal
 *.db-wal
 *.db-shm
+backend/data/
 backend/data/*.db
 backend/data/*.sqlite
 backend/data/*.sqlite3
+!backend/data/.gitkeep
 
 # ------------------------------------------------------------------------------
 # 4. Computer Vision, Deep Learning Weights & Media Files
@@ -108,6 +110,17 @@ backend/data/*.sqlite3
 *.pickle
 *.npy
 *.npz
+
+# NCNN & Exported YOLO Model Directories
+*_ncnn_model/
+yolo11n_ncnn_model/
+models/*
+!models/
+!models/.gitkeep
+
+# Test captures and temporary test outputs
+camera_test.jpg
+*.jpg.tmp
 
 # Video recordings & raw sample datasets (except .gitkeep)
 data/videos/*
