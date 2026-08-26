@@ -1,0 +1,184 @@
+# ==============================================================================
+# RetailEdge AI - Complete .gitignore
+# Covers Python, FastAPI, YOLO/PyTorch, React/Vite, SQLite, OS, and Secret files
+# ==============================================================================
+
+# ------------------------------------------------------------------------------
+# 1. Environment Secrets & Credentials (NEVER commit secrets!)
+# ------------------------------------------------------------------------------
+.env
+.env.*
+*.env
+*.env.local
+*.env.development.local
+*.env.test.local
+*.env.production.local
+backend/.env
+frontend/.env.local
+frontend/.env.*.local
+*.pem
+*.key
+*.cert
+*.pfx
+*.pkcs12
+id_rsa*
+
+# Allow tracked templates
+!.env.example
+!backend/.env.example
+!frontend/.env.example
+
+# ------------------------------------------------------------------------------
+# 2. Python & Bytecode
+# ------------------------------------------------------------------------------
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+*.manifest
+*.spec
+
+# Python Virtual Environments
+.venv/
+venv/
+ENV/
+env/
+env.bak/
+venv.bak/
+.pdm-build/
+
+# Testing, Coverage & Type Checking
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+.mypy_cache/
+.dmypy.json
+dmypy.json
+.pyre/
+.pytype/
+.ruff_cache/
+
+# ------------------------------------------------------------------------------
+# 3. Local SQLite & Databases
+# ------------------------------------------------------------------------------
+*.db
+*.sqlite
+*.sqlite3
+*.db-journal
+*.db-wal
+*.db-shm
+backend/data/*.db
+backend/data/*.sqlite
+backend/data/*.sqlite3
+
+# ------------------------------------------------------------------------------
+# 4. Computer Vision, Deep Learning Weights & Media Files
+# ------------------------------------------------------------------------------
+*.pt
+*.pth
+*.onnx
+*.engine
+*.tflite
+*.weights
+*.bin
+*.h5
+*.pkl
+*.pickle
+*.npy
+*.npz
+
+# Video recordings & raw sample datasets (except .gitkeep)
+data/videos/*
+data/samples/*
+*.mp4
+*.avi
+*.mov
+*.mkv
+*.m4v
+
+# Keep directory scaffolding intact
+!data/
+!data/.gitkeep
+!data/videos/.gitkeep
+!data/samples/.gitkeep
+!backend/data/
+!backend/data/.gitkeep
+!config/
+!config/.gitkeep
+
+# ------------------------------------------------------------------------------
+# 5. Frontend (React / Vite / Node)
+# ------------------------------------------------------------------------------
+node_modules/
+frontend/node_modules/
+frontend/dist/
+frontend/dist-ssr/
+.npm
+.eslintcache
+.stylelintcache
+*.tsbuildinfo
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# ------------------------------------------------------------------------------
+# 6. IDEs & Editors
+# ------------------------------------------------------------------------------
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+.idea/
+*.sublime-project
+*.sublime-workspace
+*.swp
+*.swo
+*~
+*.bak
+
+# ------------------------------------------------------------------------------
+# 7. Operating System Files
+# ------------------------------------------------------------------------------
+# macOS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+
+# Windows
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+ehthumbs_vista.db
+desktop.ini
+$RECYCLE.BIN/
+
+# Linux
+*~
+.directory
