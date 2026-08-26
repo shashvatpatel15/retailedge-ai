@@ -3,7 +3,8 @@ from ultralytics import YOLO
 from core.config import (
     YOLO_MODEL,
     PERSON_CLASS_ID,
-    PERSON_CONFIDENCE
+    PERSON_CONFIDENCE,
+    YOLO_IMAGE_SIZE
 )
 
 
@@ -11,29 +12,50 @@ class PersonTracker:
 
     def __init__(self):
 
-        print("Loading YOLO...")
+        print(
+            f"Loading YOLO model: "
+            f"{YOLO_MODEL}"
+        )
 
         self.model = YOLO(
             YOLO_MODEL
         )
 
-        print("YOLO loaded.")
+        print(
+            "YOLO loaded."
+        )
 
 
-    def track(self, frame):
+    def track(
+        self,
+        frame
+    ):
 
         results = self.model.track(
+
             frame,
+
             persist=True,
+
             tracker="bytetrack.yaml",
-            classes=[PERSON_CLASS_ID],
-            conf=PERSON_CONFIDENCE,
-            imgsz=640,
+
+            classes=[
+                PERSON_CLASS_ID
+            ],
+
+            conf=
+                PERSON_CONFIDENCE,
+
+            imgsz=
+                YOLO_IMAGE_SIZE,
+
             verbose=False
         )
 
 
-        boxes = results[0].boxes
+        boxes = (
+            results[0].boxes
+        )
 
 
         if boxes.id is None:
@@ -76,41 +98,47 @@ class PersonTracker:
             confidences
         ):
 
-            x1, y1, x2, y2 = map(
-                int,
-                box
+            x1, y1, x2, y2 = (
+                map(
+                    int,
+                    box
+                )
             )
 
-
-            # Bottom-center of person
-            # approximates floor position
 
             foot_x = (
                 x1 + x2
             ) // 2
 
+
             foot_y = y2
 
 
-            people.append({
+            people.append(
+                {
+                    "track_id":
+                        track_id,
 
-                "track_id": track_id,
+                    "bbox":
+                        (
+                            x1,
+                            y1,
+                            x2,
+                            y2
+                        ),
 
-                "bbox": (
-                    x1,
-                    y1,
-                    x2,
-                    y2
-                ),
+                    "foot":
+                        (
+                            foot_x,
+                            foot_y
+                        ),
 
-                "foot": (
-                    foot_x,
-                    foot_y
-                ),
-
-                "confidence":
-                    float(confidence)
-            })
+                    "confidence":
+                        float(
+                            confidence
+                        )
+                }
+            )
 
 
         return people

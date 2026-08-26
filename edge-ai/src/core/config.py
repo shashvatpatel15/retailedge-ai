@@ -1,28 +1,60 @@
-# ============================================
-# CAMERA
-# ============================================
+import os
+from pathlib import Path
+from dotenv import load_dotenv
 
-CAMERA_SOURCE = "http://10.77.77.63:8080/video"
+
+PROJECT_ROOT = (
+    Path(__file__)
+    .resolve()
+    .parents[3]
+)
+
+BACKEND_ENV = (
+    PROJECT_ROOT
+    / "backend"
+    / ".env"
+)
+
+if BACKEND_ENV.exists():
+    load_dotenv(BACKEND_ENV)
+
+
+# CAMERA
+
+CAMERA_SOURCE = os.getenv(
+    "CAMERA_SOURCE",
+    "http://127.0.0.1:8080/video"
+)
 
 FRAME_WIDTH = 640
 FRAME_HEIGHT = 480
 
 
-# ============================================
 # YOLO
-# ============================================
 
-YOLO_MODEL = "yolo11n.pt"
+YOLO_MODEL = os.getenv(
+    "YOLO_MODEL",
+    "yolo11n.pt"
+)
+
+YOLO_IMAGE_SIZE = int(
+    os.getenv(
+        "YOLO_IMAGE_SIZE",
+        "640"
+    )
+)
 
 PERSON_CLASS_ID = 0
 
-PERSON_CONFIDENCE = 0.40
+PERSON_CONFIDENCE = float(
+    os.getenv(
+        "PERSON_CONFIDENCE",
+        "0.40"
+    )
+)
 
 
-# ============================================
-# QUEUE ZONE
-# x1, y1, x2, y2
-# ============================================
+# QUEUE
 
 QUEUE_ZONE = (
     300,
@@ -31,32 +63,12 @@ QUEUE_ZONE = (
     470
 )
 
-
-# ============================================
-# QUEUE STABILITY
-# ============================================
-
-# Person must stay inside ROI this long
-# before being counted as queue customer.
 QUEUE_CONFIRM_TIME = 1.0
 
-
-# Person may briefly leave ROI without
-# immediately being removed from queue.
 QUEUE_EXIT_GRACE = 1.5
-
-
-# ============================================
-# QUEUE ALERT
-# ============================================
 
 QUEUE_LENGTH_THRESHOLD = 3
 
 WAIT_TIME_THRESHOLD = 5.0
-
-
-# ============================================
-# TRACKING
-# ============================================
 
 TRACK_TIMEOUT = 2.0
