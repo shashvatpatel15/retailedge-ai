@@ -1,10 +1,77 @@
+from pathlib import Path
+
 from ultralytics import YOLO
 
 
-MODEL_PATH = "yolo11n.pt"
+# ==================================================
+# PATHS
+# ==================================================
 
+PROJECT_ROOT = (
+    Path(__file__)
+    .resolve()
+    .parents[1]
+)
+
+
+MODEL_PATH = (
+    PROJECT_ROOT
+    / "yolo11n.pt"
+)
+
+
+# ==================================================
+# EXPORT SETTINGS
+# ==================================================
+
+IMAGE_SIZE = 320
+
+
+# ==================================================
+# EXPORT YOLO11N -> NCNN
+# ==================================================
 
 def main():
+
+    print()
+    print(
+        "================================"
+    )
+
+    print(
+        "RetailEdge AI - NCNN Export"
+    )
+
+    print(
+        "================================"
+    )
+
+    print(
+        f"Model: {MODEL_PATH}"
+    )
+
+    print(
+        f"Image size: {IMAGE_SIZE}"
+    )
+
+    print()
+
+
+    # ----------------------------------------------
+    # CHECK MODEL
+    # ----------------------------------------------
+
+    if not MODEL_PATH.exists():
+
+        raise FileNotFoundError(
+            f"YOLO model not found: "
+            f"{MODEL_PATH}"
+        )
+
+
+    # ----------------------------------------------
+    # LOAD YOLO
+    # ----------------------------------------------
 
     print(
         "Loading YOLO11n..."
@@ -12,24 +79,67 @@ def main():
 
 
     model = YOLO(
-        MODEL_PATH
+        str(
+            MODEL_PATH
+        )
     )
 
 
     print(
-        "Exporting to NCNN..."
+        "YOLO11n loaded."
     )
 
 
-    model.export(
+    # ----------------------------------------------
+    # EXPORT TO NCNN
+    # ----------------------------------------------
+
+    print()
+    print(
+        "Exporting YOLO11n "
+        "to NCNN..."
+    )
+
+
+    export_path = model.export(
         format="ncnn",
-        imgsz=320
+        imgsz=IMAGE_SIZE
     )
 
+
+    # ----------------------------------------------
+    # RESULT
+    # ----------------------------------------------
+
+    print()
+    print(
+        "================================"
+    )
 
     print(
-        "NCNN export complete."
+        "NCNN EXPORT COMPLETE"
     )
+
+    print(
+        "================================"
+    )
+
+    print(
+        f"Exported model: "
+        f"{export_path}"
+    )
+
+    print()
+    print(
+        "This model is intended "
+        "for Raspberry Pi 3 B+."
+    )
+
+    print(
+        "Inference size: 320x320"
+    )
+
+    print()
 
 
 if __name__ == "__main__":
