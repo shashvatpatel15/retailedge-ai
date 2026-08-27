@@ -7,15 +7,20 @@ set -e
 # Change to project root directory
 cd "$(dirname "$0")/.."
 
-# Activate virtualenv if available
+# Activate or create virtualenv
 if [ -d ".venv" ]; then
     source .venv/bin/activate
 elif [ -d "venv" ]; then
     source venv/bin/activate
 else
-    echo "Virtual environment not found. Creating and installing dependencies..."
+    echo "Creating virtual environment (.venv)..."
     python3 -m venv .venv
     source .venv/bin/activate
+fi
+
+# Ensure required packages are installed inside the virtualenv
+if ! python3 -c "import uvicorn, fastapi, ncnn, cv2" &>/dev/null; then
+    echo "Installing/verifying lightweight dependencies (requirements-pi.txt)..."
     pip install --upgrade pip
     pip install -r requirements-pi.txt
 fi
