@@ -112,11 +112,15 @@ backend/data/*.sqlite3
 *.npz
 
 # NCNN & Exported YOLO Model Directories
-*_ncnn_model/
-yolo11n_ncnn_model/
+# yolo11n_ncnn_model is required for Raspberry Pi edge inference (~10MB)
+!yolo11n_ncnn_model/
+!yolo11n_ncnn_model/**
+!*.ncnn.bin
+!*.ncnn.param
 models/*
 !models/
 !models/.gitkeep
+
 
 # Test captures and temporary test outputs
 camera_test.jpg
