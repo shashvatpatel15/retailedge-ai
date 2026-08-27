@@ -37,10 +37,12 @@ API_V1_PREFIX = "/api/v1"
 # CORS
 # ============================================
 
-CORS_ORIGINS = [
-    "http://localhost:5173",
-    "http://127.0.0.1:5173",
-]
+raw_cors = os.getenv("CORS_ORIGINS", "")
+if raw_cors:
+    CORS_ORIGINS = [origin.strip() for origin in raw_cors.split(",") if origin.strip()]
+else:
+    CORS_ORIGINS = ["*"]
+
 
 
 # ============================================

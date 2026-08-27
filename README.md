@@ -170,14 +170,48 @@ python edge-ai/src/run_queue.py
 
 ---
 
+## 🍓 Raspberry Pi 3 B+ Edge Deployment
+
+For low-power edge nodes like **Raspberry Pi 3 Model B+** (1GB RAM), RetailEdge AI uses **NCNN C++ acceleration** and a **Pure Python/NumPy IoU tracker** to process retail queues with minimal CPU/RAM footprint and no PyTorch dependency.
+
+### Quick Setup on Raspberry Pi 3 B+
+
+1. **Pull the latest code** on your Raspberry Pi:
+   ```bash
+   git pull origin main
+   ```
+
+2. **Run the automated Pi setup script**:
+   ```bash
+   chmod +x scripts/setup_pi.sh scripts/run_pi.sh
+   ./scripts/setup_pi.sh
+   ```
+   *(This automatically expands swap space to prevent memory exhaustion, installs OpenMP dependencies, creates a virtual environment, and installs `requirements-pi.txt`)*.
+
+3. **Run the Queue AI**:
+   - **Standalone Mode (Headless Console Dashboard)**:
+     ```bash
+     ./scripts/run_pi.sh
+     # Or: python3 edge-ai/src/run_queue_pi.py
+     ```
+   - **FastAPI Backend Mode (Exposes API on port 8000)**:
+     ```bash
+     ./scripts/run_pi.sh backend
+     ```
+
+---
+
 ## ⚙️ Edge AI Configuration
 
-You can fine-tune camera feeds, detection thresholds, and queue zones in [`edge-ai/src/core/config.py`](edge-ai/src/core/config.py):
+You can fine-tune camera feeds, detection thresholds, and queue zones in [`edge-ai/src/core/config.py`](edge-ai/src/core/config.py) or `backend/.env`:
 
 | Parameter | Default | Description |
 | :--- | :--- | :--- |
-| `CAMERA_SOURCE` | `"0"` or stream URL | Camera device index or RTSP/HTTP URL |
-| `YOLO_MODEL` | `"yolo11n.pt"` | YOLO model weights (auto-downloaded by Ultralytics) |
+| `DETECTOR_BACKEND` | `"ncnn"` (Pi) / `"yolo"` | Vision inference backend (`ncnn` for Pi 3 B+ or `yolo`) |
+| `CAMERA_SOURCE` | `"0"` or stream URL | Camera device index (`0` for USB/Pi Cam) or RTSP/HTTP URL |
+| `YOLO_MODEL` | `"yolo11n_ncnn_model"` | Model weights folder (`ncnn`) or `.pt` file (`yolo`) |
+| `YOLO_IMAGE_SIZE` | `320` (NCNN) / `640` | Input inference resolution (320 is optimal for Pi 3 B+) |
+| `NCNN_NUM_THREADS` | `4` | Number of CPU threads allocated for ARM inference |
 | `PERSON_CONFIDENCE` | `0.40` | Minimum detection confidence score |
 | `QUEUE_ZONE` | `(300, 120, 630, 470)` | Coordinates `(x1, y1, x2, y2)` for the queue ROI |
 | `QUEUE_CONFIRM_TIME` | `1.0s` | Time a person must remain in ROI to be counted |
