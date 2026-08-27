@@ -23,7 +23,7 @@ load_dotenv(ENV_FILE)
 
 
 # ============================================
-# FASTAPI
+# FASTAPI & SECURITY
 # ============================================
 
 APP_NAME = "RetailEdge AI API"
@@ -32,10 +32,13 @@ APP_VERSION = "0.1.0"
 
 API_V1_PREFIX = "/api/v1"
 
+EDGE_API_KEY = os.getenv("EDGE_API_KEY", "").strip()
+
 
 # ============================================
 # CORS
 # ============================================
+
 
 raw_cors = os.getenv("CORS_ORIGINS", "")
 if raw_cors:

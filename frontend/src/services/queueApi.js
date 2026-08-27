@@ -4,13 +4,27 @@ const API_BASE_URL =
         ? `http://${window.location.hostname}:8000/api/v1`
         : "http://127.0.0.1:8000/api/v1");
 
+const API_KEY = import.meta.env.VITE_EDGE_API_KEY || "";
+
+function getHeaders() {
+    const headers = {
+        "Content-Type": "application/json"
+    };
+    if (API_KEY) {
+        headers["X-API-Key"] = API_KEY;
+    }
+    return headers;
+}
+
 
 // ============================================
 // LIVE QUEUE DATA
 // ============================================
 
 export async function getQueueData() {
-    const response = await fetch(`${API_BASE_URL}/queue`);
+    const response = await fetch(`${API_BASE_URL}/queue`, {
+        headers: getHeaders()
+    });
 
     if (!response.ok) {
         throw new Error("Unable to fetch queue analytics");
@@ -25,7 +39,9 @@ export async function getQueueData() {
 // ============================================
 
 export async function getHealth() {
-    const response = await fetch(`${API_BASE_URL}/health`);
+    const response = await fetch(`${API_BASE_URL}/health`, {
+        headers: getHeaders()
+    });
 
     if (!response.ok) {
         throw new Error("Backend health check failed");
@@ -40,7 +56,9 @@ export async function getHealth() {
 // ============================================
 
 export async function getQueueHistory() {
-    const response = await fetch(`${API_BASE_URL}/queue/history`);
+    const response = await fetch(`${API_BASE_URL}/queue/history`, {
+        headers: getHeaders()
+    });
 
     if (!response.ok) {
         throw new Error("Unable to fetch queue history");

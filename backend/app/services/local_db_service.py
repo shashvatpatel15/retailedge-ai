@@ -63,10 +63,19 @@ def init_local_db():
 
         connection.commit()
 
+        # Enforce secure file permissions (owner read/write only) on POSIX systems
+        try:
+            import os
+            if os.name == "posix" and LOCAL_DB_PATH.exists():
+                os.chmod(LOCAL_DB_PATH, 0o600)
+        except Exception:
+            pass
+
         print(
             "Local SQLite database ready:",
             LOCAL_DB_PATH
         )
+
 
     finally:
         connection.close()

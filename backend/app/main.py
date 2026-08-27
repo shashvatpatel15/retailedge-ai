@@ -20,29 +20,32 @@ from app.api.v1.router import (
 )
 
 
+from app.core.security import (
+    SecurityHeadersMiddleware
+)
+
+
 # ==================================================
 # CREATE APP
 # ==================================================
 
 app = FastAPI(
-
     title=APP_NAME,
-
     version=APP_VERSION,
-
     description=(
-        "Local Edge AI API for "
+        "Secure Local Edge AI API for "
         "RetailEdge smart billing "
         "queue monitoring."
     ),
-
     lifespan=lifespan
 )
 
 
 # ==================================================
-# CORS
+# SECURITY HEADERS & CORS
 # ==================================================
+
+app.add_middleware(SecurityHeadersMiddleware)
 
 app.add_middleware(
     CORSMiddleware,
@@ -51,6 +54,7 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"]
 )
+
 
 
 
