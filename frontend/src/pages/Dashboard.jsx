@@ -89,22 +89,14 @@ function Dashboard() {
     // ============================================
 
     async function checkHealth() {
-
         try {
-
-            const data =
-                await getHealth();
-
-
-            setConnected(
-                data.edge_engine_running
-            );
-
+            const data = await getHealth();
+            setConnected(Boolean(data.edge_engine_running || data.status === "ok"));
         } catch {
-
             setConnected(false);
         }
     }
+
 
 
     // ============================================

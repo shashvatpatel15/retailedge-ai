@@ -1,15 +1,6 @@
-from fastapi import (
-    APIRouter,
-    HTTPException
-)
-
-from app.schemas.queue import (
-    QueueResponse
-)
-
-from app.services.edge_service import (
-    get_queue_snapshot
-)
+from fastapi import APIRouter
+from app.schemas.health import HealthResponse
+from app.services.edge_service import get_engine_health
 
 
 router = APIRouter()
@@ -17,24 +8,14 @@ router = APIRouter()
 
 @router.get(
     "",
-    response_model=QueueResponse
+    response_model=HealthResponse
 )
-def get_queue():
+def get_health():
+    health = get_engine_health()
+    is_running = bool(health.get("running", False))
 
-    data = get_queue_snapshot()
-
-
-    if data is None:
-
-        raise HTTPException(
-
-            status_code=503,
-
-            detail=(
-                "Queue AI engine "
-                "is not available."
-            )
-        )
-
-
-    return data
+    return {
+        "status": "ok" if is_running else "degraded",
+        "edge_engine_running": is_running,
+        "error": health.get("error")
+    }
