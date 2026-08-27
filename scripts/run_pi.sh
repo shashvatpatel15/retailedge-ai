@@ -4,11 +4,20 @@
 # ==============================================================================
 set -e
 
+# Change to project root directory
+cd "$(dirname "$0")/.."
+
 # Activate virtualenv if available
 if [ -d ".venv" ]; then
     source .venv/bin/activate
 elif [ -d "venv" ]; then
     source venv/bin/activate
+else
+    echo "Virtual environment not found. Creating and installing dependencies..."
+    python3 -m venv .venv
+    source .venv/bin/activate
+    pip install --upgrade pip
+    pip install -r requirements-pi.txt
 fi
 
 # Set Pi 3 B+ optimized environment variables
@@ -20,8 +29,9 @@ export ALLOW_MOCK_CAMERA="true"
 
 # Handle arguments
 if [ "$1" = "backend" ] || [ "$1" = "api" ]; then
+    shift || true
     echo "Starting RetailEdge FastAPI backend on 0.0.0.0:8000..."
-    exec uvicorn backend.app.main:app --host 0.0.0.0 --port 8000
+    exec python3 -m uvicorn backend.app.main:app --host 0.0.0.0 --port 8000 "$@"
 else
     echo "Starting Standalone RetailEdge AI Queue Monitor..."
     exec python3 edge-ai/src/run_queue_pi.py "$@"
