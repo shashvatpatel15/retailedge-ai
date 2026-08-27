@@ -7,6 +7,7 @@ Headless, ultra-lightweight execution with live console telemetry.
 import sys
 import time
 import signal
+import argparse
 from pathlib import Path
 
 # Add edge-ai/src to python path
@@ -18,12 +19,21 @@ from engine.queue_engine import QueueEngine
 
 
 def main():
+    parser = argparse.ArgumentParser(description="RetailEdge AI - Raspberry Pi Queue Monitor")
+    parser.add_argument(
+        "-s", "--source",
+        type=str,
+        default=None,
+        help="Camera source: device index (e.g. 0), stream URL (e.g. http://IP:8080/video), video file, or 'mock'"
+    )
+    args = parser.parse_args()
+
     print("==================================================")
     print("  RetailEdge AI - Raspberry Pi 3 B+ Queue Engine  ")
     print("==================================================")
     print("Initializing lightweight edge vision runtime...")
 
-    engine = QueueEngine()
+    engine = QueueEngine(camera_source=args.source)
 
     # Graceful shutdown handler
     def handle_signal(sig, frame):

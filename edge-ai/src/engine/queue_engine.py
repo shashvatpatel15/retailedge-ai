@@ -15,7 +15,7 @@ from analytics.queue_analyzer import QueueAnalyzer
 
 class QueueEngine:
 
-    def __init__(self, backend=None):
+    def __init__(self, backend=None, camera_source=None):
         print("================================")
         print("RetailEdge AI")
         print("Smart Queue Monitoring Engine")
@@ -25,7 +25,8 @@ class QueueEngine:
         print(f"Target Vision Backend: {self.backend.upper()}")
 
         # Camera
-        self.camera = CameraStream()
+        self.camera = CameraStream(source=camera_source)
+
 
         # Initialize Vision Pipeline
         self.detector = None

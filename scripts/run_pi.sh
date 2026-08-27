@@ -16,14 +16,13 @@ export DETECTOR_BACKEND="ncnn"
 export YOLO_MODEL="yolo11n_ncnn_model"
 export YOLO_IMAGE_SIZE="320"
 export NCNN_NUM_THREADS="4"
-export CAMERA_SOURCE="${CAMERA_SOURCE:-0}"
+export ALLOW_MOCK_CAMERA="true"
 
-MODE="${1:-standalone}"
-
-if [ "$MODE" = "backend" ] || [ "$MODE" = "api" ]; then
+# Handle arguments
+if [ "$1" = "backend" ] || [ "$1" = "api" ]; then
     echo "Starting RetailEdge FastAPI backend on 0.0.0.0:8000..."
     exec uvicorn backend.app.main:app --host 0.0.0.0 --port 8000
 else
     echo "Starting Standalone RetailEdge AI Queue Monitor..."
-    exec python3 edge-ai/src/run_queue_pi.py
+    exec python3 edge-ai/src/run_queue_pi.py "$@"
 fi
