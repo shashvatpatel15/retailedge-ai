@@ -1,5 +1,9 @@
-fastapi
-uvicorn[standard]
-requests
-python-dotenv
-ultralytics
+# Lightweight Python Dependencies for Raspberry Pi 3 B+
+# No PyTorch / Ultralytics overhead!
+opencv-python-headless>=4.8.0
+numpy>=1.24.0
+ncnn>=1.0.20240410
+fastapi>=0.110.0
+uvicorn[standard]>=0.28.0
+requests>=2.31.0
+python-dotenv>=1.0.0
